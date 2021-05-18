@@ -11,19 +11,16 @@ set title: 'Brain-Train'
 operator = '+'
 counter = 0
 
-class Play
+class Equation
 
     def initialize
         @number1 = rand(20)
         @number2 = rand(20)
         @answer = @number1 + @number2
         @operator = '+'
-        @ans1
-        @ans2
-        @ans3
     end
     
-    def question
+    def EquationBoxes
 
         double_digs_text1 = Text.new(
             "#{@number1}",
@@ -86,7 +83,29 @@ class Play
             size: 125,
             opacity: 0.5
         )
+    end
+end
 
+class Operator ()
+    
+end
+
+class Answers
+    def initialize
+end
+
+class Play
+    
+    def question
+        question = Equation.new
+        question.EquationBoxes
+        answer_choices
+    end
+
+    def answer_choices
+
+        choice = rand(3)
+    
         a1 = Square.new(
         color: 'red',
         x: 10, y: 300,
@@ -134,6 +153,9 @@ class Play
         )
     end
 
+
+
+
 end
 
 play = Play.new
@@ -174,14 +196,14 @@ end
 #not sure how to get at the variables. This is probably a logic issue.
 #need to allow player to click on the box to select the answer that they want
 
-answer_select = on :mouse_down do |event|
-    if Play::a1.contains?(event.x, event.y)
-        if Play::answer == Play::ans1
-            counter += 1
-            puts counter
-        end
-    end
-end
+# answer_select = on :mouse_down do |event|
+#     if Play::a1.contains?(event.x, event.y)
+#         if Play::answer == Play::ans1
+#             counter += 1
+#             puts counter
+#         end
+#     end
+# end
 
 # end
 
