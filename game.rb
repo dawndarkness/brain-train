@@ -9,13 +9,18 @@ set title: 'Brain-Train'
 #create a trigger event for input
 
 operator = '+'
-counter = 0
+# counter = 0
+# answer = nil
 
 class Play
 
     attr_accessor :clear
+    attr_accessor :submit
 
     def initialize
+        @counter = 0
+        @tally = 0
+        @score = 0
         @clear = Square.new(
             color: 'maroon',
             x: 600, y: 500,
@@ -23,12 +28,25 @@ class Play
             opacity: 0.5
             )
         @clear_text = Text.new(
-            "Submit",
-            x: 620,
+            "Next",
+            x: 640,
             y: 535,
             size: 25,
             z: 10,
         )
+        @submit = Square.new(
+            color: 'fuchsia',
+            x: 490, y: 500,
+            size: 125,
+            opacity: 0.5
+            )
+        @submit_text = Text.new(
+            "Submit",
+            x: 510,
+            y: 535,
+            size: 25,
+        )
+            
         @equation_box1 = nil
         @equation_box2 = nil
         @operator_text = nil
@@ -37,6 +55,7 @@ class Play
         @box_a = nil
         @box_b = nil
         @answer_box = nil
+        @answer = nil
         @player_answer = String.new
         @player_ans_text = Text.new(
             "#{@player_answer}",
@@ -46,12 +65,19 @@ class Play
             z: 10,
         )
         @player_answer_box = nil
+        @running_total = Text.new(
+            "",
+            x: 50,
+            y: 270,
+            size: 100,
+            z: 10,
+        )
         end
         
     def Stage 
         number1 = rand(20)
         number2 = rand(20)
-        answer = number1 + number2
+        @answer = number1 + number2
         operator = '+'
         @clear = Square.new(
             color: 'maroon',
@@ -60,8 +86,8 @@ class Play
             opacity: 0.5
             )
         @clear_text = Text.new(
-            "Submit",
-            x: 620,
+            "Next",
+            x: 640,
             y: 535,
             size: 25,
             z: 10,
@@ -142,6 +168,7 @@ class Play
         @player_answer_box.remove
         @clear.remove
         @clear_text.remove
+        @running_total.remove
     end
         
     def ShowPlayerAnswer(player_answer)
@@ -160,6 +187,31 @@ class Play
         ShowPlayerAnswer(@player_answer)
         # puts @player_answer
     end 
+
+    def CheckAnswer
+        # puts @answer
+        if @player_answer.to_i == @answer
+            @counter += 1
+            @tally += 1
+            # puts "correct"
+            @running_total = Text.new(
+                "Correct! #{@tally} out of #{@counter}",
+                x: 0,
+                y: 0,
+                size: 50,
+                z: 10,
+            )
+        else
+            @counter += 1
+            @running_total = Text.new(
+                "Incorrect! #{@tally} out of #{@counter}",
+                x: 0,
+                y: 0,
+                size: 50,
+                z: 10,
+            )
+        end
+    end
 end
 
 play = Play.new
@@ -170,12 +222,17 @@ start_game = on :mouse_down do |event|
     if play.clear.contains?(event.x, event.y)
         play.Clear
         play.Stage
-        # @play.player_ans_text.remove
     end
 end
 
 enter_answer = on :key_down do |event|
     play.PlayerInput(event.key)
+end
+
+submit_answer = on :mouse_down do |event|
+    if play.submit.contains?(event.x, event.y)
+        play.CheckAnswer
+    end
 end
 
 # next_stage = on :mouse_down do |event|
