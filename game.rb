@@ -22,6 +22,13 @@ class Play
             size: 125,
             opacity: 0.5
             )
+        @clear_text = Text.new(
+            "Submit",
+            x: 620,
+            y: 535,
+            size: 25,
+            z: 10,
+        )
         @equation_box1 = nil
         @equation_box2 = nil
         @operator_text = nil
@@ -30,8 +37,14 @@ class Play
         @box_a = nil
         @box_b = nil
         @answer_box = nil
-        @player_answer = ""
-        @player_ans_text = nil
+        @player_answer = String.new
+        @player_ans_text = Text.new(
+            "#{@player_answer}",
+            x: 262,
+            y: 270,
+            size: 100,
+            z: 10,
+        )
         @player_answer_box = nil
         end
         
@@ -40,6 +53,19 @@ class Play
         number2 = rand(20)
         answer = number1 + number2
         operator = '+'
+        @clear = Square.new(
+            color: 'maroon',
+            x: 600, y: 500,
+            size: 125,
+            opacity: 0.5
+            )
+        @clear_text = Text.new(
+            "Submit",
+            x: 620,
+            y: 535,
+            size: 25,
+            z: 10,
+        )
         @equation_box1 = Text.new(
             "#{number1}",
             x: 20,
@@ -111,12 +137,15 @@ class Play
         @box_a.remove
         @box_b.remove
         @answer_box.remove
-        @player_answer = ""
+        @player_answer = String.new
         @player_ans_text.remove
         @player_answer_box.remove
+        @clear.remove
+        @clear_text.remove
     end
         
     def ShowPlayerAnswer(player_answer)
+        @player_ans_text.remove
         @player_ans_text = Text.new(
             "#{@player_answer}",
             x: 262,
@@ -126,9 +155,10 @@ class Play
         )
     end
 
-    def Test1(arg)
+    def PlayerInput(arg)
         @player_answer += arg
         ShowPlayerAnswer(@player_answer)
+        # puts @player_answer
     end 
 end
 
@@ -140,11 +170,12 @@ start_game = on :mouse_down do |event|
     if play.clear.contains?(event.x, event.y)
         play.Clear
         play.Stage
+        # @play.player_ans_text.remove
     end
 end
 
 enter_answer = on :key_down do |event|
-    play.Test1(event.key)
+    play.PlayerInput(event.key)
 end
 
 # next_stage = on :mouse_down do |event|
