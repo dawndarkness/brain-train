@@ -83,7 +83,7 @@ class Play
             @answer = number1 - number2
         elsif @operator == '/'
             number1 = rand(1...20)
-            number2 = rand(4)
+            number2 = rand(1...5)
             @answer = number1 / number2
         else
             number2 = rand(10)
@@ -230,16 +230,18 @@ class Play
         @end_text.remove
         @game_over_screen = Text.new(
             "Final Score: #{@tally} out of #{@counter}",
-            x: 180,
+            x: 170,
             y: 400,
             size: 50,
             z: 10,
         )
         zombie = Sprite.new(
-            'zombie.png',
-            clip_width: 800,
-            size: 100,
-            time: 500,
+            'DinoSprites - vita.png',
+            width: 300,
+            height: 300,
+            clip_width: 24,
+            x: 220,
+            y: 110,
             loop: true,
         )
         zombie.play
