@@ -8,7 +8,7 @@ set title: 'Brain-Train'
 #create a game class that uses the info to actually play the game
 #create a trigger event for input
 
-operator = '+'
+# operator = '+'
 # counter = 0
 # answer = nil
 
@@ -16,24 +16,28 @@ class Play
 
     attr_accessor :clear
     attr_accessor :submit
+    attr_accessor :end
 
-    def initialize
+    def initialize(operator)
+        @operator = operator
         @counter = 0
         @tally = 0
-        @score = 0
-        @clear = Square.new(
-            color: 'maroon',
-            x: 600, y: 500,
-            size: 125,
+        @score = ""
+        @end = Square.new(
+            color: 'olive',
+            x: 700, y: 0,
+            size: 100,
             opacity: 0.5
             )
-        @clear_text = Text.new(
-            "Next",
-            x: 640,
-            y: 535,
+        @end_text = Text.new(
+            "Quit",
+            x: 730,
+            y: 30,
             size: 25,
             z: 10,
         )
+        @clear = nil
+        @clear_text = nil
         @submit = Square.new(
             color: 'fuchsia',
             x: 490, y: 500,
@@ -77,21 +81,16 @@ class Play
     def Stage 
         number1 = rand(20)
         number2 = rand(20)
-        @answer = number1 + number2
-        operator = '+'
-        @clear = Square.new(
-            color: 'maroon',
-            x: 600, y: 500,
-            size: 125,
-            opacity: 0.5
-            )
-        @clear_text = Text.new(
-            "Next",
-            x: 640,
-            y: 535,
-            size: 25,
-            z: 10,
-        )
+
+        if @operator == '+'
+            @answer = number1 + number2
+        elsif @operator == '-'
+            @answer = number1 - number2
+        elsif @operator == '/'
+            @answer = number1 / number2
+        else
+            @answer = number1 * number2
+        end 
         @equation_box1 = Text.new(
             "#{number1}",
             x: 20,
@@ -107,7 +106,7 @@ class Play
             z: 10,
         ) 
         @operator_text = Text.new(
-            "#{operator}",
+            "#{@operator}",
             x: 165,
             y: 90,
             size: 100,
@@ -152,6 +151,19 @@ class Play
         size: 150,
         opacity: 0.5
         )
+        @clear = Square.new(
+            color: 'maroon',
+            x: 600, y: 500,
+            size: 125,
+            opacity: 0.5
+            )
+        @clear_text = Text.new(
+            "Next",
+            x: 640,
+            y: 535,
+            size: 25,
+            z: 10,
+        )
     end
         
     def Clear
@@ -185,15 +197,12 @@ class Play
     def PlayerInput(arg)
         @player_answer += arg
         ShowPlayerAnswer(@player_answer)
-        # puts @player_answer
     end 
 
     def CheckAnswer
-        # puts @answer
         if @player_answer.to_i == @answer
             @counter += 1
             @tally += 1
-            # puts "correct"
             @running_total = Text.new(
                 "Correct! #{@tally} out of #{@counter}",
                 x: 0,
@@ -212,13 +221,197 @@ class Play
             )
         end
     end
+
+    def Quit
+        @clear.remove
+        @clear_text.remove
+        @submit.remove
+        @submit_text.remove
+        @end.remove
+        @end_text.remove
+        if @tally == 0
+            @score = "0%"
+            @game_over_screen = Text.new(
+                "Final Score: #{@score}",
+                x: 10,
+                y: 250,
+                size: 80,
+                z: 10,
+            )
+        elsif @tally == 0 and @counter == 0
+            @score = "0%"
+            @game_over_screen = Text.new(
+                "Final Score: #{@score}",
+                x: 10,
+                y: 250,
+                size: 80,
+                z: 10,
+            )
+        elsif @tally == @counter
+            @score = "100%"
+            @game_over_screen = Text.new(
+                "Final Score: #{@score}",
+                x: 10,
+                y: 250,
+                size: 80,
+                z: 10,
+            )
+        else
+            temp = @tally/@counter*100
+            @score = "#{temp}%"
+            @game_over_screen = Text.new(
+                "Final Score: #{@score}",
+                x: 10,
+                y: 250,
+                size: 80,
+                z: 10,
+            )
+        end
+
+    end
 end
 
-play = Play.new
 
-play.Stage
+
+
+# class StartScreen
+
+#     attr_accessor :welcome_message
+#     attr_accessor :select_operator
+#     attr_accessor :operator_plus_box
+#     attr_accessor :operator_minus_box
+#     attr_accessor :operator_multiply_box
+#     attr_accessor :operator_divide_box
+
+
+#     def initialize
+        welcome_message = Text.new(
+            "Let's Brain Train!",
+            x: 0,
+            y: 0,
+            size: 50
+        )
+        select_operator = Text.new(
+            "Choose your poison!",
+            x: 0,
+            y: 50,
+            size: 50
+        )
+        operator_plus = Text.new(
+            "+",
+            x: 150,
+            y: 230,
+            size: 100,
+            z: 10,
+        )
+        operator_minus = Text.new(
+            "-",
+            x: 310,
+            y: 220,
+            size: 100,
+            z: 10,
+        )
+        operator_multiply = Text.new(
+            "X",
+            x: 440,
+            y: 230,
+            size: 100,
+            z: 10,
+        )
+        operator_divide = Text.new(
+            "%",
+            x: 580,
+            y: 230,
+            size: 100,
+            z: 10,
+        )
+        operator_plus_box = Square.new(
+            color: 'blue',
+            x: 130, y: 250,
+            size: 100,
+            opacity: 0.5
+        )
+        operator_minus_box = Square.new(
+            color: 'blue',
+            x: 280, y: 250,
+            size: 100,
+            opacity: 0.5
+        )
+        operator_multiply_box = Square.new(
+            color: 'blue',
+            x: 430, y: 250,
+            size: 100,
+            opacity: 0.5
+        )
+        operator_divide_box = Square.new(
+            color: 'blue',
+            x: 580, y: 250,
+            size: 100,
+            opacity: 0.5
+        )  
+#     end
+# end
+# start = StartScreen.new
+
+play = nil
 
 start_game = on :mouse_down do |event|
+    if operator_plus_box.contains?(event.x, event.y)
+        play = Play.new '+'
+        play.Stage
+        welcome_message.remove
+        select_operator.remove
+        operator_plus.remove
+        operator_minus.remove
+        operator_multiply.remove
+        operator_divide.remove
+        operator_minus_box.remove
+        operator_plus_box.remove
+        operator_multiply_box.remove
+        operator_divide_box.remove
+    elsif operator_minus_box.contains?(event.x, event.y)
+        play = Play.new '-'
+        play.Stage
+        welcome_message.remove
+        select_operator.remove
+        operator_plus.remove
+        operator_minus.remove
+        operator_multiply.remove
+        operator_divide.remove
+        operator_minus_box.remove
+        operator_plus_box.remove
+        operator_multiply_box.remove
+        operator_divide_box.remove
+    elsif operator_multiply_box.contains?(event.x, event.y)
+        play = Play.new '*'
+        play.Stage
+        welcome_message.remove
+        select_operator.remove
+        operator_plus.remove
+        operator_minus.remove
+        operator_multiply.remove
+        operator_divide.remove
+        operator_minus_box.remove
+        operator_plus_box.remove
+        operator_multiply_box.remove
+        operator_divide_box.remove
+    elsif operator_divide_box.contains?(event.x, event.y)
+        play = Play.new '/'
+        play.Stage
+        welcome_message.remove
+        select_operator.remove
+        operator_plus.remove
+        operator_minus.remove
+        operator_multiply.remove
+        operator_divide.remove
+        operator_minus_box.remove
+        operator_plus_box.remove
+        operator_multiply_box.remove
+        operator_divide_box.remove
+    end
+end
+
+next_question = on :mouse_down do |event|
     if play.clear.contains?(event.x, event.y)
         play.Clear
         play.Stage
@@ -235,7 +428,11 @@ submit_answer = on :mouse_down do |event|
     end
 end
 
-# next_stage = on :mouse_down do |event|
-# end
+quit_game = on :mouse_down do |event|
+    if play.end.contains?(event.x, event.y)
+        play.Clear
+        play.Quit
+    end
+end
 
 show
