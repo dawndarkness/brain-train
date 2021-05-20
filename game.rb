@@ -4,14 +4,6 @@ set width: 800, height: 600
 set background: '#A9D7C6'
 set title: 'Brain-Train'
 
-#create a class that uses the start screen and selects the parameters for the game
-#create a game class that uses the info to actually play the game
-#create a trigger event for input
-
-# operator = '+'
-# counter = 0
-# answer = nil
-
 class Play
 
     attr_accessor :clear
@@ -80,31 +72,38 @@ class Play
         
     def Stage 
         number1 = rand(20)
-        number2 = rand(20)
+        number2 = nil
+    
 
         if @operator == '+'
+            number2 = rand(20)
             @answer = number1 + number2
         elsif @operator == '-'
+            number2 = rand(20)
             @answer = number1 - number2
         elsif @operator == '/'
+            number1 = rand(1...20)
+            number2 = rand(4)
             @answer = number1 / number2
         else
+            number2 = rand(10)
             @answer = number1 * number2
         end 
+
         @equation_box1 = Text.new(
             "#{number1}",
             x: 20,
             y: 90,
             size: 100,
             z: 10,
-        )       
-        @equation_box2 = Text.new(
-            "#{number2}",
-            x: 262,
-            y: 90,
-            size: 100,
-            z: 10,
-        ) 
+            )       
+            @equation_box2 = Text.new(
+                "#{number2}",
+                x: 262,
+                y: 90,
+                size: 100,
+                z: 10,
+                ) 
         @operator_text = Text.new(
             "#{@operator}",
             x: 165,
@@ -229,132 +228,135 @@ class Play
         @submit_text.remove
         @end.remove
         @end_text.remove
-        if @tally == 0
-            @score = "0%"
-            @game_over_screen = Text.new(
-                "Final Score: #{@score}",
-                x: 10,
-                y: 250,
-                size: 80,
-                z: 10,
-            )
-        elsif @tally == 0 and @counter == 0
-            @score = "0%"
-            @game_over_screen = Text.new(
-                "Final Score: #{@score}",
-                x: 10,
-                y: 250,
-                size: 80,
-                z: 10,
-            )
-        elsif @tally == @counter
-            @score = "100%"
-            @game_over_screen = Text.new(
-                "Final Score: #{@score}",
-                x: 10,
-                y: 250,
-                size: 80,
-                z: 10,
-            )
-        else
-            temp = @tally/@counter*100
-            @score = "#{temp}%"
-            @game_over_screen = Text.new(
-                "Final Score: #{@score}",
-                x: 10,
-                y: 250,
-                size: 80,
-                z: 10,
-            )
-        end
+        @game_over_screen = Text.new(
+            "Final Score: #{@tally} out of #{@counter}",
+            x: 180,
+            y: 400,
+            size: 50,
+            z: 10,
+        )
+        zombie = Sprite.new(
+            'zombie.png',
+            clip_width: 800,
+            size: 100,
+            time: 500,
+            loop: true,
+        )
+        zombie.play
+        # if @tally == 0
+        #     @score = "0%"
+        #     @game_over_screen = Text.new(
+        #         "Final Score: #{@score}",
+        #         x: 10,
+        #         y: 250,
+        #         size: 80,
+        #         z: 10,
+        #     )
+        # elsif @tally == 0 and @counter == 0
+        #     @score = "0%"
+        #     @game_over_screen = Text.new(
+        #         "Final Score: #{@score}",
+        #         x: 10,
+        #         y: 250,
+        #         size: 80,
+        #         z: 10,
+        #     )
+        # elsif @tally == @counter
+        #     @score = "100%"
+        #     @game_over_screen = Text.new(
+        #         "Final Score: #{@score}",
+        #         x: 10,
+        #         y: 250,
+        #         size: 80,
+        #         z: 10,
+        #     )
+        # else
+        #     temp = @tally/@counter*100
+        #     @score = "#{temp}%"
+        #     @game_over_screen = Text.new(
+        #         "Final Score: #{@score}",
+        #         x: 10,
+        #         y: 250,
+        #         size: 80,
+        #         z: 10,
+        #     )
+        # end
 
     end
 end
 
+#This is the start screen
 
-
-
-# class StartScreen
-
-#     attr_accessor :welcome_message
-#     attr_accessor :select_operator
-#     attr_accessor :operator_plus_box
-#     attr_accessor :operator_minus_box
-#     attr_accessor :operator_multiply_box
-#     attr_accessor :operator_divide_box
-
-
-#     def initialize
-        welcome_message = Text.new(
-            "Let's Brain Train!",
-            x: 0,
-            y: 0,
-            size: 50
-        )
-        select_operator = Text.new(
-            "Choose your poison!",
-            x: 0,
-            y: 50,
-            size: 50
-        )
-        operator_plus = Text.new(
-            "+",
-            x: 150,
-            y: 230,
-            size: 100,
-            z: 10,
-        )
-        operator_minus = Text.new(
-            "-",
-            x: 310,
-            y: 220,
-            size: 100,
-            z: 10,
-        )
-        operator_multiply = Text.new(
-            "X",
-            x: 440,
-            y: 230,
-            size: 100,
-            z: 10,
-        )
-        operator_divide = Text.new(
-            "%",
-            x: 580,
-            y: 230,
-            size: 100,
-            z: 10,
-        )
-        operator_plus_box = Square.new(
-            color: 'blue',
-            x: 130, y: 250,
-            size: 100,
-            opacity: 0.5
-        )
-        operator_minus_box = Square.new(
-            color: 'blue',
-            x: 280, y: 250,
-            size: 100,
-            opacity: 0.5
-        )
-        operator_multiply_box = Square.new(
-            color: 'blue',
-            x: 430, y: 250,
-            size: 100,
-            opacity: 0.5
-        )
-        operator_divide_box = Square.new(
-            color: 'blue',
-            x: 580, y: 250,
-            size: 100,
-            opacity: 0.5
-        )  
-#     end
-# end
-# start = StartScreen.new
+welcome_message = Text.new(
+    "Let's Brain Train!",
+    x: 220,
+    y: 30,
+    size: 50
+)
+select_operator = Text.new(
+    "Choose your poison!",
+    x: 180,
+    y: 80,
+    size: 50
+)
+operator_plus = Text.new(
+    "+",
+    x: 150,
+    y: 230,
+    size: 100,
+    z: 10,
+)
+operator_minus = Text.new(
+    "-",
+    x: 310,
+    y: 220,
+    size: 100,
+    z: 10,
+)
+operator_multiply = Text.new(
+    "X",
+    x: 440,
+    y: 230,
+    size: 100,
+    z: 10,
+)
+operator_divide = Text.new(
+    "%",
+    x: 580,
+    y: 230,
+    size: 100,
+    z: 10,
+)
+operator_plus_box = Square.new(
+    color: 'blue',
+    x: 130, y: 250,
+    size: 100,
+    opacity: 0.5
+)
+operator_minus_box = Square.new(
+    color: 'blue',
+    x: 280, y: 250,
+    size: 100,
+    opacity: 0.5
+)
+operator_multiply_box = Square.new(
+    color: 'blue',
+    x: 430, y: 250,
+    size: 100,
+    opacity: 0.5
+)
+operator_divide_box = Square.new(
+    color: 'blue',
+    x: 580, y: 250,
+    size: 100,
+    opacity: 0.5
+)
 
 play = nil
 
+#These are the event handlers
+
+#On the start screen the player can select which maths operator they want to use
 start_game = on :mouse_down do |event|
     if operator_plus_box.contains?(event.x, event.y)
         play = Play.new '+'
@@ -411,6 +413,7 @@ start_game = on :mouse_down do |event|
     end
 end
 
+#This clears the last question and stages the next question
 next_question = on :mouse_down do |event|
     if play.clear.contains?(event.x, event.y)
         play.Clear
@@ -418,16 +421,19 @@ next_question = on :mouse_down do |event|
     end
 end
 
+#Player answer is stored with this event
 enter_answer = on :key_down do |event|
     play.PlayerInput(event.key)
 end
 
+#Player submits answer and the answer is checked
 submit_answer = on :mouse_down do |event|
     if play.submit.contains?(event.x, event.y)
         play.CheckAnswer
     end
 end
 
+#Player can quit the game
 quit_game = on :mouse_down do |event|
     if play.end.contains?(event.x, event.y)
         play.Clear

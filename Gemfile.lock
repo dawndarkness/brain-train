@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ruby2d (0.9.5)
+
+PLATFORMS
+  universal-darwin-20
+
+DEPENDENCIES
+  ruby2d
+
+BUNDLED WITH
+   2.2.17
