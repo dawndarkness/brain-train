@@ -243,45 +243,6 @@ class Play
             loop: true,
         )
         zombie.play
-        # if @tally == 0
-        #     @score = "0%"
-        #     @game_over_screen = Text.new(
-        #         "Final Score: #{@score}",
-        #         x: 10,
-        #         y: 250,
-        #         size: 80,
-        #         z: 10,
-        #     )
-        # elsif @tally == 0 and @counter == 0
-        #     @score = "0%"
-        #     @game_over_screen = Text.new(
-        #         "Final Score: #{@score}",
-        #         x: 10,
-        #         y: 250,
-        #         size: 80,
-        #         z: 10,
-        #     )
-        # elsif @tally == @counter
-        #     @score = "100%"
-        #     @game_over_screen = Text.new(
-        #         "Final Score: #{@score}",
-        #         x: 10,
-        #         y: 250,
-        #         size: 80,
-        #         z: 10,
-        #     )
-        # else
-        #     temp = @tally/@counter*100
-        #     @score = "#{temp}%"
-        #     @game_over_screen = Text.new(
-        #         "Final Score: #{@score}",
-        #         x: 10,
-        #         y: 250,
-        #         size: 80,
-        #         z: 10,
-        #     )
-        # end
-
     end
 end
 
