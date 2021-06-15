@@ -25,20 +25,20 @@ It is important to note that whatever the player types will count as input into 
     ```
     gem install ruby2d
     ```
-        <details><summary><b>Possible Apple M1 chip error</b></summary>
+    <details><summary><b>Possible Apple M1 chip error</b></summary>
         If you have an error like this;
 
-        ```
-        You don't have write permissions for the /Library/Ruby/Gems/2.6.0 directory.
-        ```
+            ```
+            You don't have write permissions for the /Library/Ruby/Gems/2.6.0 directory.
+            ```
 
         Then run the following command before you run the `gem install ruby2d` command;
 
-        ```
-        export GEM_HOME="$HOME/.gem"
-        ```
+            ```
+            export GEM_HOME="$HOME/.gem"
+            ```
         Please note that you may have to do this every time you open the file.
-        </details>
+    </details>
 
 1. To run the game, execute this line of code in the command line;
 
