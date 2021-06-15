@@ -97,13 +97,13 @@ class Play
             size: 100,
             z: 10,
             )       
-            @equation_box2 = Text.new(
-                "#{number2}",
-                x: 262,
-                y: 90,
-                size: 100,
-                z: 10,
-                ) 
+        @equation_box2 = Text.new(
+            "#{number2}",
+            x: 262,
+            y: 90,
+            size: 100,
+            z: 10,
+            ) 
         @operator_text = Text.new(
             "#{@operator}",
             x: 165,
